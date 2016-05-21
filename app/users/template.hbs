@@ -1,3 +1,5 @@
 {{link-to 'Back' 'index'}}
 
-{{users-list}}
+{{#users-list as |users actions|}}
+  {{users-table users=users remove=actions.remove}}
+{{/users-list}}

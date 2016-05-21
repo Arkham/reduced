@@ -1,39 +1,24 @@
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
-import Redux from 'npm:redux';
+import connect from 'ember-redux/components/connect';
 
-let { createStore } = Redux;
+let stateToComputed = (state) => {
+  return {
+    number: state.number
+  };
+};
 
-let reducer = ((state, action) => {
-  if (action.type === 'ADD') {
-    return state + 1;
-  }
+let dispatchToActions = (dispatch) => {
+  return {
+    add: () => dispatch({ type: 'ADD' })
+  };
+};
 
-  return state || 0;
-});
-
-let store = createStore(reducer);
-
-export default Ember.Component.extend({
-  init() {
-    this._super(...arguments);
-    store.subscribe(() => {
-      this.notifyPropertyChange('number');
-    });
-  },
-
-  number: Ember.computed(function() {
-    return store.getState();
-  }),
-
-  actions: {
-    add() {
-      store.dispatch({ type: 'ADD' });
-    }
-  },
-
+let AdderComponent = Ember.Component.extend({
   layout: hbs`
     {{number}}
     <button onclick={{action "add"}}>Add</button>
   `
 });
+
+export default connect(stateToComputed, dispatchToActions)(AdderComponent);

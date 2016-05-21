@@ -1,11 +1,7 @@
-let number = ((state, action) => {
-  if (action.type === 'ADD') {
-    return state + 1;
-  }
-
-  return state || 0;
-});
+import users from 'reduced/reducers/users';
+import number from 'reduced/reducers/number';
 
 export default {
-  number
+  number: number,
+  users: users
 };
